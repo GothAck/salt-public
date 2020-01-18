@@ -1,0 +1,39 @@
+applications:
+  - os.firewall
+parameters:
+  firewall:
+    nat:
+      prerouting:
+        docker_accept:
+          in: docker0
+          jump: ACCEPT
+    filter:
+      forward:
+        _defaults:
+          chain: DROP
+          jump: ACCEPT
+        docker:
+          in: docker0
+      input:
+        _defaults:
+          chain: DROP
+          jump: ACCEPT
+        local:
+          in: lo
+        related_and_established:
+          module: state
+          state: RELATED,ESTABLISHED
+        icmp_ping_v4:
+          _version: 4
+          proto: icmp
+          icmp-type: echo-request
+        icmp_ping_v6:
+          _version: 6
+          proto: icmpv6
+        dns_replies:
+          proto: udp
+          sport: 53
+          dport: 1024:65535
+        marked_packets:
+          module: mark
+          mark: "0x16"

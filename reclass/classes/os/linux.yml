@@ -1,0 +1,16 @@
+classes:
+  - os.general
+  - os.firewall
+  - services.ssh
+  - services.salt.minion
+parameters:
+  network:
+    interfaces:
+      external: eth0
+  mine_functions:
+    ip_addrs_internal:
+      mine_function: network.ip_addrs
+      cidr: 192.168.1.0/24
+    ip_addrs_external:
+      mine_function: network.ip_addrs
+      interface: ${network:interfaces:external}

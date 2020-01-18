@@ -1,0 +1,9 @@
+classes:
+  - os.linux
+parameters:
+  firewall:
+    filter:
+      input:
+        http:
+          proto: tcp
+          dport: 80
